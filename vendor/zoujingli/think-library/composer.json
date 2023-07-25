@@ -1,0 +1,46 @@
+{
+  "name": "zoujingli/think-library",
+  "license": "MIT",
+  "homepage": "https://thinkadmin.top",
+  "description": "ThinkPHP v6 Development Library",
+  "authors": [
+    {
+      "name": "Anyon",
+      "email": "zoujingli@qq.com"
+    }
+  ],
+  "support": {
+    "email": "zoujingli@qq.com",
+    "wiki": "https://thinkadmin.top",
+    "forum": "https://thinkadmin.top",
+    "source": "https://gitee.com/zoujingli/ThinkLibrary",
+    "issues": "https://gitee.com/zoujingli/ThinkLibrary/issues"
+  },
+  "require": {
+    "php": "^7.1|^8.0",
+    "ext-gd": "*",
+    "ext-curl": "*",
+    "ext-json": "*",
+    "ext-zlib": "*",
+    "ext-iconv": "*",
+    "ext-openssl": "*",
+    "ext-mbstring": "*",
+    "topthink/framework": "^6.0",
+    "topthink/think-migration": "^3.0"
+  },
+  "autoload": {
+    "files": [
+      "src/common.php"
+    ],
+    "psr-4": {
+      "think\\admin\\": "src"
+    }
+  },
+  "extra": {
+    "think": {
+      "services": [
+        "think\\admin\\Library"
+      ]
+    }
+  }
+}

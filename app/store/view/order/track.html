@@ -1,0 +1,58 @@
+<form action="{:sysuri()}" method="post" data-auto="true" class="layui-form layui-card" data-table-id="BaseTable">
+
+    <div class="layui-card-body padding-left-40">
+     <ul class="layui-timeline">
+        {foreach $tracks as $key=>$vo}
+        <li class="layui-timeline-item">
+            <i class="layui-icon layui-timeline-axis"></i>
+            <div class="layui-timeline-content layui-text">
+              <h3 class="layui-timeline-title">{$vo.create_at}</h3>
+              <p>
+                 
+                 {if $vo.process_status == 2}
+                 流程：<span class="color-green">{$vo.status_text}</span> &nbsp;&nbsp; 操作人：{$vo.adminer}
+                 
+                 <br>衣服图片：{foreach $vo.datas as $image } 
+                                 <div class="headimg headimg-no" data-tips-hover data-tips-image data-lazy-src="{$image}"></div>
+                               {/foreach}  
+                               
+                 <br>条码：{$vo.bar_code}
+                 <br>备注：{$vo.remark}
+                 {/if}
+                 {if $vo.process_status == 3}
+                 流程：<span class="color-green">{$vo.status_text}</span> &nbsp;&nbsp; 操作人：{$vo.adminer}
+                 {/if}
+                 {if $vo.process_status == 4}
+                 流程：<span class="color-green">{$vo.status_text}</span> &nbsp;&nbsp; 操作人：{$vo.adminer}
+                 <br>备注：{$vo.remark}
+                     {if $vo.datas}
+                     <br>收货方式：<b>{$vo.return_typetext}</b>
+                     <br>收件地址：{$vo.datas.address}
+                     <br>收件联系人：{$vo.datas.contacts}
+                     <br>收件电话：{$vo.datas.phone}
+                     {/if}
+                 {/if}
+                 {if $vo.process_status == 6}
+                 流程：<span class="color-red">{$vo.status_text}</span> &nbsp;&nbsp;类型：<span><b>{$vo.return_typetext}</b></span>&nbsp;&nbsp;操作人：{$vo.adminer}
+                 <br>备注：{$vo.remark}
+                 {/if}
+              </p>
+            </div>
+         </li>
+         {/foreach} 
+         
+    </ul>
+
+     
+        {notempty name='order_id'}<input type='hidden' value='{$order_id}' name='order_id'/>{/notempty}
+
+    </div>
+ 
+    <div class="hr-line-dashed"></div>
+
+
+    <div class="layui-form-item text-center">
+        <button class="layui-btn layui-btn-danger" type='button'  data-close>取消</button>
+    </div>
+
+</form>

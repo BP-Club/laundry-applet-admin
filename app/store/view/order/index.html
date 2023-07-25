@@ -1,0 +1,210 @@
+{extend name="../../admin/view/main"}
+
+{block name="button"}
+<!--{if auth("clean")}-->
+<button class='layui-btn layui-btn-sm layui-btn-primary' data-queue='{:url("clean")}'>定时清理订单</button>
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+<div class="layui-tab layui-tab-card">
+    <ul class="layui-tab-title notselect">
+        {php}$types = ['ta' => '全部订单', 't1' => '待取货', 't2' => '入库中', 't3' => '清洗中', 't4' => '送货中', 't5' => '已完成','t6' =>'退款'];{/php}
+        {foreach $types as $k=>$v}{if isset($status) and 't'.$status eq $k}
+        <li class="layui-this" data-open="{:url('index')}?status={$k}">{$v}<sup class="layui-badge border-radius">{$total[$k]??0}</sup></li>
+        {else}
+        <li data-open="{:url('index')}?status={$k}">{$v}<sup class="layui-badge border-radius">{$total[$k]??0}</sup></li>
+        {/if}
+        {/foreach}
+    </ul>
+    <div class="layui-tab-content">
+        {include file='/order/index_search'}
+        <table class="layui-table margin-top-10" lay-skin="line">
+            {notempty name='list'}
+            <thead>
+            <tr>
+                <th class='list-table-check-td think-checkbox'>
+                    <label><input data-auto-none data-check-target='.list-check-box' type='checkbox'></label>
+                </th>
+                <th>用户信息</th>
+                <th>订单信息</th>
+                <th>联系信息</th>
+                <th>项目信息</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            {/notempty}
+            <tbody>
+            {foreach $list as $key=>$vo}
+            <tr>
+                <td class='list-table-check-td think-checkbox'>
+                    <label><input class="list-check-box" type='checkbox' value='{$vo.id}'></label>
+                </td>
+                <td class="nowrap relative">
+                    <div>
+                        <div class="headimg" data-lazy-src="{$vo.user.headimg|default='__ROOT__/static/theme/img/headimg.png'}" data-tips-image></div>
+                        <div class="inline-block sub-strong-red">
+                            用户昵称：<span class="color-text">{$vo.user.nickname|default='--'}</span><!--span class="margin-left-5">[ <b>VIP{$vo.user.vip_code|default=''}</b> ] <b>{$vo.user.vip_name|default=''}</b></span--><br>
+                        </div>
+                    </div>
+                </td>
+                <td class='nowrap'>
+                    {eq name='vo.status' value='0'}<span class="layui-badge layui-badge-middle layui-bg-orange" >待支付</span>{/eq}
+                    {eq name='vo.status' value='1'}<span class="layui-badge layui-badge-middle layui-bg-cyan">待取货</span>{/eq}
+                    {eq name='vo.status' value='2'}<span class="layui-badge layui-badge-middle layui-bg-green">入库中</span>{/eq}
+                    {eq name='vo.status' value='3'}<span class="layui-badge layui-badge-middle layui-bg-blue">清洗中</span>{/eq}
+                    {eq name='vo.status' value='4'}<span class="layui-badge layui-badge-middle layui-bg-black">送货中</span>{/eq}
+                    {eq name='vo.status' value='5'}<span class="layui-badge layui-badge-middle layui-bg-green">已完成</span>{/eq}
+         
+                    <div class="inline-block text-middle">
+                        <div class="sub-strong-blue">
+                            订单单号：<b>{$vo.order_no|default=''}
+                                  {if $vo.refund_status == 2} 
+                                     {if $vo.refund_request} 
+                                       (<span class="color-red">退-客户申请</span>) 
+                                      {else} 
+                                      (<span class="color-red">退-管理员操作</span>) 
+                                     {/if}
+                                  {/if}
+                                  
+                                  
+                                  </b>
+                            <!--{eq name='vo.status' value='3'}-->
+                            <a class="margin-left-5 layui-badge layui-bg-blue" data-modal="{:url('audit')}?order_no={$vo.order_no}">凭证审核</a>
+                            <!--{/eq}-->
+                        </div>
+                        <div class="sub-strong-blue">
+                            订单总计：<b>{$vo.discount_price+0}</b> 元
+                            <span class="color-green">原价 {$vo.regular_price+0} 元, 随减 {$vo.amount_reduct+0} 元</span>
+                        </div>
+                        <div>下单时间：<span class="color-text">{$vo.create_at}</span></div>
+                        <!--{notempty name='vo.status' value='1'}-->
+                        <div>
+                        支付时间：<span class="color-text">{$vo.payment_at|format_datetime}</span>
+                        <!--{/notempty}-->
+                        
+                        <!--{notempty name='vo.status' value='0'}-->
+                        支付状态：<span class="color-desc">还未支付</span>
+                       <!--{/notempty}-->
+                    </div>
+                </td>
+                <td class="nowrap">
+
+                        <div class="sub-strong-blue">
+                        洗前取件方式:<a data-title="更改方式" data-modal='{:url("editTake")}?order_id={$vo.id}&type=send'><b>{$vo.take_type_text|default=''}</b></a>
+                        </div>
+                        {if $vo.take_type == 1 && $vo.take_address != false}
+                         <div>
+                            <b>地址</b>:{$vo.take_address.address}
+                        </div>
+                         <div >
+                             <b>联系人</b>: {$vo.take_address.name}&nbsp;&nbsp; {$vo.take_address.phone} 
+                        </div>
+                         <div >
+                             <b>取件日期</b>: {$vo.take_date}
+                        </div>
+                        {/if}
+
+                      
+                        <div class="sub-strong-blue">
+                        洗后取件方式:<a data-title="更改方式" data-modal='{:url("editTake")}?order_id={$vo.id}&type=return'><b>{$vo.return_type_text|default=''}</b></a>
+                        </div>
+                         {if $vo.return_type == 2 && $vo.send_address != false }
+                         <div class="sub-strong-blue">
+                            <b>地址</b>:{$vo.send_address.address}
+                        </div>
+                         <div class="sub-strong-blue">
+                            <b>联系人</b>: {$vo.send_address.name}&nbsp;&nbsp; {$vo.send_address.phone} 
+                        </div>
+                        <div >
+                             <b>送回日期</b>: {$vo.return_date}
+                        </div>
+                        {/if}    
+                    
+                </td>
+                <td class="nowrap">
+                    <div>
+                         <div>订单项目：
+                         {foreach $vo.goods_data.goods as $good}
+                             <div calss="good_box">
+                                 <b class="color-text">{$good.name|default=''}</b><span class="color-text"> x </span>
+                                 <span class="color-red"> {$good.good_num|default=''}</span>&nbsp;&nbsp;
+                                 <b class="color-blue">{$good.price_selling+0}元 </b>
+                             </div>
+                          {/foreach}
+                         </div>
+                    </div>
+                </td>
+               <td class="nowrap">
+                 {if auth('inStock') && $vo.order_status == 1}
+                 <a class="layui-btn layui-btn-sm"  data-modal='{:url("inStock")}?order_id={$vo.id}'>入库</a>
+                 <!--a class="layui-btn layui-btn-sm"  data-modal='{:url("back")}?order_id={$vo.id}'>退回</a-->
+                 {/if}
+                 {if auth('washing') && $vo.order_status == 2}
+                  <a class="layui-btn layui-btn-sm"  data-modal='{:url("track")}?order_id={$vo.id}'>操作记录</a>
+                 <div style="height:10px;"></div>
+                 <div>
+                     <a class="layui-btn layui-btn-sm" data-action='{:url("washing")}?order_id={$vo.id}' data-confirm="确定开始进行清洗？">开始清洗</a>
+                     <a class="layui-btn layui-btn-sm"  data-modal='{:url("back")}?order_id={$vo.id}'>退回</a>
+                 </div>
+                 {/if}
+                 {if auth('transport') && $vo.order_status == 3}
+                 <a class="layui-btn layui-btn-sm"  data-modal='{:url("track")}?order_id={$vo.id}'>操作记录</a>
+                 <a class="layui-btn layui-btn-sm"  data-modal='{:url("transport")}?order_id={$vo.id}'>配送</a>
+                 {/if}
+                 {if $vo.order_status == 4}
+                      <p><a class="layui-btn layui-btn-sm"  data-modal='{:url("track")}?order_id={$vo.id}'>操作记录</a></p>
+                      <div class="color-green">衣物运输中，等待客户确认</div>
+                 {/if}
+                 {if $vo.order_status == 5}
+                      <p><a class="layui-btn layui-btn-sm"  data-modal='{:url("track")}?order_id={$vo.id}'>操作记录</a></p>
+                 {/if}
+                 {if $vo.order_status == 6}
+                  <a class="layui-btn layui-btn-sm"  data-modal='{:url("track")}?order_id={$vo.id}'>操作记录</a>
+                     {if $vo.status == 2}
+                     <a class="layui-btn layui-btn-sm"  data-modal='{:url("back")}?order_id={$vo.id}'>退回</a>
+                     {/if}
+                  
+                  <div style="height:10px;"></div>
+                   {if $vo.refund_request}
+                  <a class="layui-btn layui-btn-sm layui-btn-danger"  data-modal='{:url("refunds")}?order_id={$vo.id}'>退款记录</a>
+                   {/if}
+                  
+                   {if $vo.refund_status == 1}
+                     
+                      <div class="color-orange">当前用户申请退款</div>
+                   {/if}
+                   
+                   {if $vo.refund_status == 2}
+                      {if $vo.status == 4}
+                       <div class="color-blue">退款申请已同意,等待客户确认收货</div>
+                      {elseif  in_array($vo.status,[1,2])}
+                        {if $vo.status == 1}
+                        <a class="layui-btn layui-btn-sm"  data-modal='{:url("transport")}?order_id={$vo.id}'>退回</a>
+                        {/if}
+                       <div class="color-green">退款完成</div>
+                      {else} 
+                       <div class="color-green">退款,客户确认收货完成</div>
+                      {/if}
+                     
+                   {/if}
+                   
+                   {if $vo.refund_status == 3}
+                      
+                      <div class="color-red">退款申请已拒绝</div>
+                   {/if}
+                   {if $vo.refund_status == 5}
+                      
+                      <div class="color-green">退款成功，客户已收到衣物</div>
+                   {/if}
+                   
+                 {/if}
+               </td>
+            </tr>
+               {/foreach}
+            </tbody>
+        </table>
+        {empty name='list'}<span class="notdata">没有记录哦</span>{else}{$pagehtml|raw|default=''}{/empty}
+    </div>
+</div>
+{/block}

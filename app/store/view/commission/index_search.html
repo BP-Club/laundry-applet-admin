@@ -1,0 +1,46 @@
+<fieldset>
+    <legend>条件搜索</legend>
+    <form class="layui-form layui-form-pane form-search" action="{:sysuri()}" onsubmit="return false" method="get" autocomplete="off">
+
+     {if !isset($store_id)}  
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">合作店</label>
+        <label class="layui-input-inline">
+            <select class="layui-select" name="store_id">
+                <option value=''>-- 全部 --</option>
+                {foreach $stores as $k=>$v}
+                {if input('store_id') eq $k.''}
+                <option selected value="{$k}">{$v.name}</option>
+                {else}
+                <option value="{$k}">{$v.name}</option>
+                {/if}{/foreach}
+            </select>
+        </label>
+     </div>
+     {else}
+    <input type="hidden" name="store_id" value="{$store_id}"/>
+    {/if}   
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-inline">
+                <select name='status' lay-search class="layui-select">
+                    <option value=''>-- 全部 --</option>
+                    {foreach ['未结算','已结算'] as $key=>$value}{if $key eq input('get.status')}
+                    <option selected value="{$key}">{$value}</option>
+                    {else}
+                    <option value="{$key}">{$value}</option>
+                    {/if}{/foreach}
+                </select>
+            </div>
+        </div>
+
+        
+       
+         <div class="layui-form-item layui-inline">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+    </div>
+    </form>
+</fieldset>
+
+<script>
+</script>

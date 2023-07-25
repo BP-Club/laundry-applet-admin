@@ -1,0 +1,182 @@
+<form action="{:sysuri()}" autocomplete="off" class="layui-form layui-form-pane form-search" method="get" onsubmit="return false">
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">订单用户</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="user_keys" placeholder="请输入手机或昵称" value="{$get.user_keys|default=''}">
+        </label>
+    </div>
+
+   
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">订单单号</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="order_no" placeholder="请输入订单单号" value="{$get.order_no|default=''}">
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">发货单号</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" name="truck_send_number" placeholder="请输入发货单号" value="{$get.truck_send_number|default=''}">
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">订单状态</label>
+        <label class="layui-input-inline">
+            <select class="layui-select" name="status">
+                <option value=''>- 全部订单 -</option>
+                {foreach ['0'=>'待支付','1'=>'待取货','2'=>'入库中','3'=>'清洗中','4'=>'送货中','5'=>'已完成','6'=>'退款'] as $k=>$v}
+                {if input('status') eq 't'.$k || input('status') eq $k}
+                <option selected value="{$k}">{$v}</option>
+                {else}
+                <option value="{$k}">{$v}</option>
+                {/if}{/foreach}
+            </select>
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">付款状态</label>
+        <label class="layui-input-inline">
+            <select class="layui-select" name="pay_status">
+                <option value=''>-- 全部 --</option>
+                {foreach ['0'=>'等待支付','1'=>'已经支付'] as $k=>$v}
+                {if input('pay_status') eq $k.''}
+                <option selected value="{$k}">{$v}</option>
+                {else}
+                <option value="{$k}">{$v}</option>
+                {/if}{/foreach}
+            </select>
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">支付方式</label>
+        <label class="layui-input-inline">
+            <select class="layui-select" name="pay_type">
+                <option value=''>-- 全部 --</option>
+                {foreach $payments as $k=>$v}
+                {if input('pay_type') eq $k.''}
+                <option selected value="{$k}">{$v.name}</option>
+                {else}
+                <option value="{$k}">{$v.name}</option>
+                {/if}{/foreach}
+            </select>
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">下单时间</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" data-date-range name="create_at" placeholder="请选择下单时间" value="{$get.create_at|default=''}">
+        </label>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">支付时间</label>
+        <label class="layui-input-inline">
+            <input class="layui-input" data-date-range name="payment_at" placeholder="请选择支付时间" value="{$get.payment_at|default=''}">
+        </label>
+    </div>
+
+  
+    {if !isset($store_id)}
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">合作店</label>
+        <label class="layui-input-inline">
+            <select class="layui-select" name="store_id">
+                <option value=''>-- 全部 --</option>
+                {foreach $stores as $k=>$v}
+                {if input('store_id') eq $k.''}
+                <option selected value="{$k}">{$v.name}</option>
+                {else}
+                <option value="{$k}">{$v.name}</option>
+                {/if}{/foreach}
+            </select>
+        </label>
+    </div>
+    {else}
+    <input type="hidden" name="store_id" value="{$store_id}"/>
+    {/if}
+     <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">洗前取件方式</label>
+        <label class="layui-input-inline">
+            <select class="layui-select" name="take_type">
+                <option value=''>-- 全部 --</option>
+                {foreach [1 => '自带',2 => '上门'] as $k=>$v}
+                {if input('take_type') eq $k.''}
+                <option selected value="{$k}">{$v}</option>
+                {else}
+                <option value="{$k}">{$v}</option>
+                {/if}{/foreach}
+            </select>
+        </label>
+    </div>
+    
+     <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">洗后归还方式</label>
+        <label class="layui-input-inline">
+            <select class="layui-select" name="return_type">
+                <option value=''>-- 全部 --</option>
+                {foreach [1 => '自提',2 => '配送'] as $k=>$v}
+                {if input('return_type') eq $k.''}
+                <option selected value="{$k}">{$v}</option>
+                {else}
+                <option value="{$k}">{$v}</option>
+                {/if}{/foreach}
+            </select>
+        </label>
+    </div>
+    
+    
+    {if input('status') eq 't6' || input('status') eq '6'}
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">退款方式</label>
+        <label class="layui-input-inline">
+            <select class="layui-select" name="refund_status">
+                <option value=''>-- 全部 --</option>
+                {foreach [1 => '申请',2 => '同意',3 => '拒绝'] as $k=>$v}
+                {if input('refund_status') eq $k.''}
+                <option selected value="{$k}">{$v}</option>
+                {else}
+                <option value="{$k}">{$v}</option>
+                {/if}{/foreach}
+            </select>
+        </label>
+    </div>
+    {/if}
+    
+    
+
+    <div class="layui-form-item layui-inline">
+        <button class="layui-btn layui-btn-primary" type="submit"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+        <button class="layui-btn layui-btn-primary" data-form-export="{:url('index')}?type={$type|default=''}" type="button">
+            <i class="layui-icon layui-icon-export"></i> 导 出
+        </button>
+    </div>
+</form>
+
+<script>
+    require(['excel'], function (excel) {
+        excel.bind(function (data) {
+            var items = [];
+            items.push(['订单号', '用户手机', '用户姓名', '订单类型', '支付单号', '支付方式', '支付状态', '支付金额', '支付时间']);
+            data.forEach(function (order) {
+                items.push([
+                    order.order_no,
+                    order.user.phone,
+                    order.user.username || order.user.nickname || '',
+                    order.truck_type ? '虚拟商品' : '实物商品',
+                    order.payment_trade || '',
+                    order.payment_name || order.payment_type || '',
+                    order.payment_status ? '已支付' : '未支付',
+                    order.payment_amount || '0.00',
+                    order.payment_datetime || '',
+                ]);
+            });
+            return items;
+        }, '用户订单记录');
+    });
+</script>

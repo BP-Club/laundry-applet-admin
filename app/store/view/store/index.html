@@ -1,0 +1,47 @@
+{extend name="../../admin/view/main"}
+{block name="button"}
+<!--{if auth("add")}-->
+<button class='layui-btn layui-btn-sm layui-btn-primary' data-open='{:url("add")}'>添加门店</button>
+<!--{/if}-->
+{/block}
+
+
+{block name="content"}
+<div class="think-box-shadow">
+    {include file='store/index_search'}
+    <table id="StoreTable" data-url="{:sysuri()}" data-target-search="form.form-search"></table>
+</div>
+{/block}
+
+{block name='script'}
+<script>
+    $(function () {
+        $('#StoreTable').layTable({
+            even: true, height: 'full',
+            sort: {field: 'id', type: 'desc'},
+            cols: [[
+                {checkbox: true},
+                {field: 'id', title: 'ID', width: 80, sort: true, align: 'center'},
+                {field: 'name', title: '门店名', minWidth: 20, sort: true, align: 'center'},
+                {field: 'cover', title: '封面图', minWidth: 20, sort: true, align: 'center',templet: '#coverTpl'},
+                {field: 'address', title: '地址', minWidth: 30},
+                {field: 'work_time', title: '工作时间', minWidth: 30},
+                {field: 'id', title: '业绩', minWidth: 150},
+                {toolbar: '#toolbar', title: '操作面板', align: 'center', minWidth: 150, fixed: 'right'}
+            ]]
+        });
+    });
+</script>
+
+<script type="text/html" id="coverTpl">
+    <div class="headimg headimg-no" data-tips-hover data-tips-image data-lazy-src="{{d.cover}}"></div>
+</script>
+<script type="text/html" id="toolbar">
+    <!--{if auth('remove')}-->
+    <a data-action='{:url("remove")}' data-value="id#{{d.id}}" data-confirm="确认要删除这条记录吗？" class="layui-btn layui-btn-sm layui-btn-danger">删 除</a>
+    <!--{/if}-->
+    <!--{if auth("edit")}-->
+    <a class="layui-btn layui-btn-sm"  data-open='{:url("edit")}?id={{d.id}}'>编 辑</a>
+    <!--{/if}-->
+</script>
+{/block}

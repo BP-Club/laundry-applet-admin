@@ -1,0 +1,32 @@
+{extend name="../../admin/view/main"}
+
+
+{block name="content"}
+<div class="think-box-shadow">
+    {include file='commission/index_search'}
+    <table id="CommissionTable" data-url="{:sysuri()}" data-target-search="form.form-search"></table>
+</div>
+{/block}
+
+{block name='script'}
+<script>
+    $(function () {
+        $('#CommissionTable').layTable({
+            even: true, height: 'full',
+            sort: {field: 'id', type: 'desc'},
+            cols: [[
+                {checkbox: true},
+                {field: 'id', title: 'ID', width: 80, sort: true, align: 'center'},
+                {field: 'order_no', title: '对应订单', minWidth: 20, align: 'center'},
+                {field: 'store_name', title: '门店名', minWidth: 20, align: 'center'},
+                {field: 'remark', title: '收益说明', minWidth: 20, align: 'center'},
+                {field: 'amount', title: '收益', minWidth: 20, sort: true, align: 'center'},
+                {field: 'status_text', title: '结算情况', minWidth: 30},
+                {field: 'create_at', title: '产生时间', minWidth: 30, sort: true},
+                {field: 'settle_at', title: '结算时间', minWidth: 150, sort: true},
+            ]]
+        });
+    });
+</script>
+
+{/block}

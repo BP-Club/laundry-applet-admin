@@ -1,0 +1,40 @@
+{extend name="../../admin/view/main"}
+{block name="button"}
+<!--{if auth("add")}-->
+<button class='layui-btn layui-btn-sm layui-btn-primary' data-open='{:url("add")}'>添加项目</button>
+<!--{/if}-->
+{/block}
+
+
+{block name="content"}
+<div class="think-box-shadow">
+    <table id="Additem" data-url="{:sysuri()}" data-target-search="form.form-search"></table>
+</div>
+{/block}
+
+{block name='script'}
+<script>
+    $(function () {
+        $('#Additem').layTable({
+            even: true, height: 'full',
+            sort: {field: 'id', type: 'desc'},
+            cols: [[
+                {checkbox: true},
+                {field: 'id', title: 'ID', width: 80, sort: true, align: 'center'},
+                {field: 'title', title: '项目', minWidth: 20, sort: true, align: 'center'},
+                {field: 'price', title: '起步价', minWidth: 20, sort: true, align: 'center'},
+                {toolbar: '#toolbar', title: '操作面板', align: 'center', minWidth: 150, fixed: 'right'}
+            ]]
+        });
+    });
+</script>
+
+<script type="text/html" id="toolbar">
+    <!--{if auth('remove')}-->
+    <a data-action='{:url("remove")}' data-value="id#{{d.id}}" data-confirm="确认要删除这条记录吗？" class="layui-btn layui-btn-sm layui-btn-danger">删 除</a>
+    <!--{/if}-->
+    <!--{if auth("edit")}-->
+    <a class="layui-btn layui-btn-sm"  data-open='{:url("edit")}?id={{d.id}}'>编 辑</a>
+    <!--{/if}-->
+</script>
+{/block}

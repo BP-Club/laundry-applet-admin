@@ -1,0 +1,56 @@
+{extend name="../../admin/view/main"}
+{block name="content"}
+<form action="{:sysuri()}" method="post" data-auto="true" class="layui-form layui-card shadow-none">
+
+    
+
+    <div class="layui-card-body">
+
+         <div class="layui-form-item">
+            <label class="layui-form-label"><span class="nowrap color-desc">2公里外配送费</span></label>
+            <div class="layui-input-block">
+                <input name="market_config.delivery_price" required placeholder="请输入整数" value="{$data.market_config.delivery_price}" class="layui-input">
+                <p class="help-block">上门取/送件费用(总算)</p>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="nowrap color-desc">2公里内配送费</span></label>
+            <div class="layui-input-block">
+                <input name="market_config.visit_price" required placeholder="请输入整数" value="{$data.market_config.visit_price}" class="layui-input">
+                <p class="help-block">上门取/送件费用(各算)</p>
+            </div>
+        </div>
+        
+        
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="nowrap color-desc">默认完成天数</span></label>
+            <div class="layui-input-block">
+                <input name="market_config.finsh_days" required placeholder="请输入整数" value="{$data.market_config.finsh_days}" class="layui-input">
+                <p class="help-block">用于在前端默认显示到店取件日期</p>
+            </div>
+        </div>
+        
+        
+
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="nowrap color-desc">合作店返利率</span></label>
+            <div class="layui-input-block">
+                <input name="market_config.profit" placeholder="请输入整数或百分数" maxlength="18" required="required" value="{$data.market_config.profit}" class="layui-input">
+                <p class="help-block">请输入小数</p>
+            </div>
+        </div>
+
+        
+
+    </div>
+
+    <div class="hr-line-dashed"></div>
+
+
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type="submit">保存配置</button>
+    </div>
+</form>
+{/block}

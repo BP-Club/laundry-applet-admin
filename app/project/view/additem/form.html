@@ -1,0 +1,45 @@
+{extend name="../../admin/view/main"}
+
+
+{block name="content"}
+<form action="{:sysuri()}" class="layui-card layui-form" data-auto="true" method="post">
+
+    <div class="layui-card-body">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">项目名称</label>
+            <div class="layui-input-block">
+                <input name="title" value='{$vo.title|default=""}' required placeholder="请输入项目名称" class="layui-input">
+                <p class="help-block"><b>必选</b>，请填写项目名称</p>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">项目价格</label>
+            <div class="layui-input-block">
+                <input type="number" name="price" value='{$vo.price|default=""}' required placeholder="请输入项目价格" class="layui-input">
+                <p class="help-block"><b>必选</b>，请填写项目价格</p>
+            </div>
+        </div>
+        
+        
+         <div class="layui-form-item">
+            <label class="layui-form-label">说明</label>
+            <div class="layui-input-block">
+                 <textarea name="intro" required="" placeholder="请输入文字" maxlength="10000" class="layui-textarea">{$vo.intro|default=""|raw}</textarea>
+            </div>
+        </div>
+        
+         <div class="hr-line-dashed"></div>
+        {notempty name='vo.id'}<input type='hidden' value='{$vo.id}' name='id'>{/notempty}
+    
+        <div class="layui-form-item text-center">
+            <button class="layui-btn" type='submit'>保存数据</button>
+             <button class="layui-btn layui-btn-danger" data-history-back data-confirm="确定要取消编辑吗？" type='button'>取消编辑</button>
+        </div>
+    </div>
+     <script>
+    </script>
+   
+</form>
+{/block}

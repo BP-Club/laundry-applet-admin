@@ -1,0 +1,241 @@
+{extend name="../../admin/view/main"}
+
+
+{block name="content"}
+<form action="{:sysuri()}" class="layui-card layui-form" data-auto="true" method="post">
+
+    <div class="layui-card-body">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">优惠卷名称</label>
+            <div class="layui-input-block">
+                <input name="name" value='{$vo.name|default=""}' required placeholder="请输入优惠卷名称" class="layui-input">
+                <p class="help-block"><b>必选</b>，请填写菜单名称 </p>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">抵扣类型</label>
+            <div class="layui-input-block">
+                 <select class="layui-select" lay-search name="discount_type" >
+                 {foreach [1 => '整数',2 => '百分比'] as $key=>$value}{if isset($vo.discount_type) && $key == $vo.discount_type}
+                <option selected value="{$key}">{$value}</option>
+                {else}
+                <option value="{$key}">{$value}</option>
+                {/if}{/foreach}
+            </select>
+            </div>
+        </div>
+
+
+
+
+     
+        <div class="layui-form-item">
+            <label class="layui-form-label">抵扣金额</label>
+            <div class="layui-input-block">
+                <input type="number" name="amount" value='{$vo.amount|default="0"}' required placeholder="请输入抵扣金额" class="layui-input">
+                <p class="help-block"><b>必选</b>，填写整数为抵扣金额，填写小数为打几折，例如0.5，为打5折 </p>
+            </div>
+        </div>
+
+        
+   
+        <div class="layui-form-item">
+            <label class="layui-form-label">说明</label>
+            <div class="layui-input-block">
+                <textarea name="intro" required="" placeholder="请输入文字" maxlength="10000" class="layui-textarea">{$vo.intro|default=""}</textarea>
+            </div>
+        </div>
+ 
+        
+       
+       
+        
+        <div class="layui-form-item">
+            <label class="layui-form-label">库存类型</label>
+            <div class="layui-input-block">
+                 <select class="layui-select" lay-search name="stock_type" lay-filter="stock_type">
+                 {foreach [1 => '数量无限',2 => '数量有限'] as $key=>$value}{if isset($vo.stock_type) && $key == $vo.stock_type}
+                <option selected value="{$key}">{$value}</option>
+                {else}
+                <option value="{$key}">{$value}</option>
+                {/if}{/foreach}
+            </select>
+            </div>
+        </div>
+        
+        
+        
+         <div class="layui-form-item"  id="stock" >
+            <label class="layui-form-label">库存数量</label>
+            <div class="layui-input-block">
+                <input type="number" name="stock" value='{$vo.stock|default=""}' required placeholder="请输入库存数量" class="layui-input">
+                <p class="help-block"><b>必选</b>，请填写库存数量</p>
+            </div>
+        </div>
+        
+        <div class="layui-form-item"  id="project_block">
+            <label class="layui-form-label">获取条件</label>
+            <div class="layui-input-block">
+                <select class="layui-select" lay-search name="gain_requirement" >
+                 <option  value="0">没有</option>    
+                {foreach gainRequirements as $value}{if isset($vo.gain_requirement) && $value.id == $vo.gain_requirement}
+                <option selected value="{$value.id}">{$value.name}</option>
+                {else}
+                <option  value="{$value.id}">{$value.name}</option>
+                {/if}{/foreach}
+                 </select>
+            </div>
+        </div>
+        
+        
+        
+        
+        <div class="layui-form-item">
+            <label class="layui-form-label">使用场景</label>
+            <div class="layui-input-block">
+                 <select class="layui-select" lay-search name="use_scene" lay-filter="use_scene">
+                 {foreach [1 => '全平台',2 => '指定项目'] as $key=>$value}{if isset($vo.use_scene) && $key == $vo.use_scene}
+                <option selected value="{$key}">{$value}</option>
+                {else}
+                <option value="{$key}">{$value}</option>
+                {/if}{/foreach}
+            </select>
+            </div>
+        </div>
+        
+       <div class="layui-form-item"  id="project_block">
+            <label class="layui-form-label">指定项目</label>
+            <div class="layui-input-block">
+             <input type="hidden" name="project_ids" id="project_ids" value="{$vo.project_ids|default=""}"/>
+            <select   xm-select="projects_select" xm-select-search="">
+               
+            </select>
+            </div>
+        </div>
+        
+        
+        
+        
+        
+        
+          <div class="layui-form-item">
+            <label class="layui-form-label">使用要求</label>
+            <div class="layui-input-block">
+                 <select class="layui-select" lay-search name="use_requirement" lay-filter="use_requirement">
+                 {foreach [1 => '无要求',2 => '指定最低消费金额'] as $key=>$value}{if isset($vo.use_requirement) && $key == $vo.use_requirement}
+                <option selected value="{$key}">{$value}</option>
+                {else}
+                <option value="{$key}">{$value}</option>
+                {/if}{/foreach}
+            </select>
+            </div>
+        </div>
+        
+         <div class="layui-form-item" id="min_consume_amount" >
+            <label class="layui-form-label">最低消费金额(折扣)</label>
+            <div class="layui-input-block">
+                <input type="number" name="min_consume_amount" value='{$vo.min_consume_amount|default="0"}' required placeholder="请输入最低消费金额" class="layui-input">
+                <p class="help-block"><b>必选</b>，填写最低消费金额 </p>
+            </div>
+        </div>
+       
+        
+        <div class="layui-form-item">
+            <label class="layui-form-label">使用日期</label>
+            <div class="layui-input-block">
+                <input data-date-range name="use_date" value='{$vo.use_date|default=""}' placeholder="使用日期" required class="layui-input">
+            </div>
+        </div>
+
+        
+        
+        
+         <div class="hr-line-dashed"></div>
+        {notempty name='vo.id'}<input type='hidden' value='{$vo.id}' name='id'>{/notempty}
+    
+        <div class="layui-form-item text-center">
+            <button class="layui-btn" type='submit'>保存数据</button>
+             <button class="layui-btn layui-btn-danger" data-history-back data-confirm="确定要取消编辑吗？" type='button'>取消编辑</button>
+        </div>
+    </div>
+     <script>
+     
+        form.render();
+        var project_ids = new Array();
+        require(['formSelects'], function (formSelects) {
+            formSelects.data('projects_select', 'local', {
+                arr: [
+                     {foreach $projects as $item}
+                      {"name": "{$item.name}", "value": {$item.id}},
+                     {/foreach}
+                ]
+            });
+            {if !empty($vo)}
+            formSelects.value('projects_select', [{$vo.project_ids}]); 
+            project_ids =  [{$vo.project_ids}];
+            {/if}
+            
+            formSelects.on('projects_select', function(id, vals, val, isAdd, isDisabled){
+                 if(isAdd){
+                     project_ids.push(val.value);
+                 }else{
+                     var index = project_ids.indexOf(val.value);
+                     project_ids.splice(index,1);
+                 }
+                 console.log(project_ids);
+                $('#project_ids').val(project_ids.join(','));
+            });
+        })
+     
+        {if isset($vo.use_scene) && 2 == $vo.use_scene}
+        $("#project_block").show();
+        {else}
+        $("#project_block").hide();
+        {/if}
+     
+     
+     
+        {if isset($vo.stock_type) && 2 == $vo.stock_type}
+        $("#stock").show();
+        {else}
+        $("#stock").hide();
+        {/if}
+        
+        {if isset($vo.use_requirement) && 2 == $vo.use_requirement}
+        $("#min_consume_amount").show();
+        {else}
+        $("#min_consume_amount").hide();
+        {/if}
+        
+ 
+        form.on('select(stock_type)', function(data){
+             if(data.value==2){
+                 $("#stock").show();
+             }else{
+                 $("#stock").hide();
+             }
+        }); 
+        
+        form.on('select(use_requirement)', function(data){
+             if(data.value==2){
+                 $("#min_consume_amount").show();
+             }else{
+                 $("#min_consume_amount").hide();
+             }
+        }); 
+        
+        
+        form.on('select(use_scene)', function(data){
+             if(data.value==2){
+                 $("#project_block").show();
+             }else{
+                 $("#project_block").hide();
+             }
+        });
+    </script>
+   
+</form>
+{/block}

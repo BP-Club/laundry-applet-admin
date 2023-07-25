@@ -1,0 +1,77 @@
+<form action="{:sysuri()}" method="post" data-auto="true" class="layui-form layui-card" data-table-id="BaseTable">
+    <div class="layui-card-body padding-left-40">
+      <div class="layui-form-item">
+            <label class="layui-form-label">退回形式</label>
+            <div class="layui-input-block">
+                 <select class="layui-select" lay-search name="return_type" lay-filter="return_type">
+                 {foreach [1=>'自提',2=>'配送'] as $key=>$value}
+                <option value="{$key}">{$value}</option>
+                {/if}
+                {/foreach}
+            </select>
+            </div>
+        </div>
+        
+        
+        <div class="layui-form-item" >
+            <label class="layui-form-label">地址</label>
+            <div class="layui-input-block">
+                <input name="address" id="address"  value='{$storeAddr.address|default=""}' required placeholder="请输入地址" class="layui-input">
+                <p class="help-block"><b>必选</b>，请填写地址</p>
+            </div>
+        </div>
+        
+        <div class="layui-form-item"  >
+            <label class="layui-form-label">联系人</label>
+            <div class="layui-input-block">
+                <input name="contacts" id="contacts" value='{$storeAddr.name}({$storeAddr.contacts|default="无"})' required placeholder="请输入联系人" class="layui-input">
+                <p class="help-block"><b>必选</b>，请填写联系人</p>
+            </div>
+        </div>
+        
+        
+        <div class="layui-form-item" >
+            <label class="layui-form-label">电话</label>
+            <div class="layui-input-block">
+                <input name="phone" id="phone" value='{$storeAddr.mobile|default=""}' required placeholder="请输入联系电话" class="layui-input">
+                <p class="help-block"><b>必选</b>，请填写电话</p>
+            </div>
+        </div>
+      
+       
+      
+       <div class="layui-form-item">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <textarea name="remark"  placeholder="请输入备注" maxlength="10000" class="layui-textarea"></textarea>
+            </div>
+        </div>
+       <input type='hidden' value='4' name='process_status'/>
+        {notempty name='order_id'}<input type='hidden' value='{$order_id}' name='order_id'/>{/notempty}
+
+    </div>
+    {notempty name='id'}<input type='hidden' value='{$id}' name='id'>{/notempty}
+    <div class="hr-line-dashed"></div>
+
+
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='submit'>确定</button>
+        <button class="layui-btn layui-btn-danger" type='button'  data-close>取消</button>
+    </div>
+    <script>
+        form.on('select(return_type)', function(data){
+             var address = '{$storeAddr.address|default=""}';
+             var contacts = '{$storeAddr.name}({$storeAddr.contacts|default="无"})';
+             var phone = '{$storeAddr.mobile|default=""}';
+             if(data.value==2){
+                  address = '{$order.take_address.address|default=""}';
+                  contacts = '{$order.take_address.name|default=""}';
+                  phone = '{$order.take_address.phone|default=""}';
+             }
+             $("#address").val(address);
+             $("#contacts").val(contacts);
+             $("#phone").val(phone);
+        }); 
+    </script>
+     
+</form>

@@ -1,0 +1,55 @@
+<fieldset>
+    <legend>条件搜索</legend>
+    <form class="layui-form layui-form-pane form-search" action="{:sysuri()}" onsubmit="return false" method="get" autocomplete="off">
+
+      
+        
+          <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-inline">
+                <select name='status' lay-search class="layui-select">
+                    <option value=''>-- 全部 --</option>
+                    {foreach ['禁用','可用️'] as $key=>$value}{if $key eq input('get.status')}
+                    <option selected value="{$key}">{$value}</option>
+                    {else}
+                    <option value="{$key}">{$value}</option>
+                    {/if}{/foreach}
+                </select>
+            </div>
+        </div>
+
+         <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">计费模式</label>
+            <div class="layui-input-inline">
+                <select name='charge_mode' lay-search class="layui-select">
+                    <option value=''>-- 全部 --</option>
+                    {foreach [1 => '单只宠物叠加',2 => '固定宠物数量叠加',3 => '无宠物数量要求'] as $key=>$value}{if $key eq input('get.charge_mode')}
+                    <option selected value="{$key}">{$value}</option>
+                    {else}
+                    <option value="{$key}">{$value}</option>
+                    {/if}{/foreach}
+                </select>
+            </div>
+        </div>
+        
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">超服务距离计费</label>
+            <div class="layui-input-inline">
+                <select name='distance_charge' lay-search class="layui-select">
+                    <option value=''>-- 全部 --</option>
+                    {foreach ['关闭','开启'] as $key=>$value}{if $key eq input('get.distance_charge')}
+                    <option selected value="{$key}">{$value}</option>
+                    {else}
+                    <option value="{$key}">{$value}</option>
+                    {/if}{/foreach}
+                </select>
+            </div>
+        </div>
+         <div class="layui-form-item layui-inline">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+    </div>
+    </form>
+</fieldset>
+
+<script>
+</script>

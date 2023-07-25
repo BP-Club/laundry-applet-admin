@@ -1,0 +1,41 @@
+[CODE] 0
+[INFO] 用户还没有注册！
+[FILE] think\admin\Exception in app/data/service/UserAdminService.php line 87
+[TIME] 2023-03-08 14:59:45
+
+[TRACE]
+#0 /www/wwwroot/uexwash.com/ThinkAdmin/app/data/controller/api/Auth.php(77): app\data\service\UserAdminService::get()
+#1 /www/wwwroot/uexwash.com/ThinkAdmin/app/data/controller/api/Auth.php(57): app\data\controller\api\Auth->getUser()
+#2 /www/wwwroot/uexwash.com/ThinkAdmin/vendor/zoujingli/think-library/src/Controller.php(95): app\data\controller\api\Auth->initialize()
+#3 [internal function]: think\admin\Controller->__construct()
+#4 /www/wwwroot/uexwash.com/ThinkAdmin/vendor/topthink/framework/src/think/Container.php(395): ReflectionClass->newInstanceArgs()
+#5 /www/wwwroot/uexwash.com/ThinkAdmin/vendor/topthink/framework/src/think/Container.php(252): think\Container->invokeClass()
+#6 /www/wwwroot/uexwash.com/ThinkAdmin/vendor/topthink/framework/src/think/route/dispatch/Controller.php(187): think\Container->make()
+#7 /www/wwwroot/uexwash.com/ThinkAdmin/vendor/topthink/framework/src/think/route/dispatch/Controller.php(74): think\route\dispatch\Controller->controller()
+#8 /www/wwwroot/uexwash.com/ThinkAdmin/vendor/topthink/framework/src/think/route/Dispatch.php(90): think\route\dispatch\Controller->exec()
+#9 /www/wwwroot/uexwash.com/ThinkAdmin/vendor/topthink/framework/src/think/Route.php(785): think\route\Dispatch->run()
+#10 /www/wwwroot/uexwash.com/ThinkAdmin/vendor/topthink/framework/src/think/Pipeline.php(59): think\Route->think\{closure}()
+#11 /www/wwwroot/uexwash.com/ThinkAdmin/vendor/zoujingli/think-library/src/Library.php(150): think\Pipeline->think\{closure}()
+#12 [internal function]: think\admin\Library->think\admin\{closure}()
+#13 /www/wwwroot/uexwash.com/ThinkAdmin/vendor/topthink/framework/src/think/Middleware.php(142): call_user_func()
+#14 /www/wwwroot/uexwash.com/ThinkAdmin/vendor/topthink/framework/src/think/Pipeline.php(85): think\Middleware->think\{closure}()
+#15 /www/wwwroot/uexwash.com/ThinkAdmin/vendor/topthink/framework/src/think/Pipeline.php(66): think\Pipeline->think\{closure}()
+#16 /www/wwwroot/uexwash.com/ThinkAdmin/vendor/topthink/framework/src/think/Route.php(786): think\Pipeline->then()
+#17 /www/wwwroot/uexwash.com/ThinkAdmin/vendor/topthink/framework/src/think/Http.php(216): think\Route->dispatch()
+#18 /www/wwwroot/uexwash.com/ThinkAdmin/vendor/topthink/framework/src/think/Http.php(206): think\Http->dispatchToRoute()
+#19 /www/wwwroot/uexwash.com/ThinkAdmin/vendor/topthink/framework/src/think/Pipeline.php(59): think\Http->think\{closure}()
+#20 /www/wwwroot/uexwash.com/ThinkAdmin/vendor/zoujingli/think-library/src/support/middleware/Multiple.php(79): think\Pipeline->think\{closure}()
+#21 /www/wwwroot/uexwash.com/ThinkAdmin/vendor/topthink/framework/src/think/Pipeline.php(59): think\admin\support\middleware\Multiple->think\admin\support\middleware\{closure}()
+#22 /www/wwwroot/uexwash.com/ThinkAdmin/vendor/topthink/framework/src/think/Pipeline.php(66): think\Pipeline->think\{closure}()
+#23 /www/wwwroot/uexwash.com/ThinkAdmin/vendor/zoujingli/think-library/src/support/middleware/Multiple.php(80): think\Pipeline->then()
+#24 [internal function]: think\admin\support\middleware\Multiple->handle()
+#25 /www/wwwroot/uexwash.com/ThinkAdmin/vendor/topthink/framework/src/think/Middleware.php(142): call_user_func()
+#26 /www/wwwroot/uexwash.com/ThinkAdmin/vendor/topthink/framework/src/think/Pipeline.php(85): think\Middleware->think\{closure}()
+#27 /www/wwwroot/uexwash.com/ThinkAdmin/vendor/topthink/framework/src/think/Pipeline.php(66): think\Pipeline->think\{closure}()
+#28 /www/wwwroot/uexwash.com/ThinkAdmin/vendor/topthink/framework/src/think/Http.php(207): think\Pipeline->then()
+#29 /www/wwwroot/uexwash.com/ThinkAdmin/vendor/topthink/framework/src/think/Http.php(170): think\Http->runWithRequest()
+#30 /www/wwwroot/uexwash.com/ThinkAdmin/vendor/zoujingli/think-library/src/service/RuntimeService.php(213): think\Http->run()
+#31 /www/wwwroot/uexwash.com/ThinkAdmin/vendor/zoujingli/think-library/src/service/SystemService.php(407): think\admin\service\RuntimeService::doWebsiteInit()
+#32 /www/wwwroot/uexwash.com/ThinkAdmin/vendor/zoujingli/think-library/src/service/SystemService.php(382): think\admin\service\SystemService::__callStatic()
+#33 /www/wwwroot/uexwash.com/ThinkAdmin/public/index.php(25): think\admin\service\SystemService->__call()
+#34 {main}

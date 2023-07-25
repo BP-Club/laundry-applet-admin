@@ -1,0 +1,109 @@
+<fieldset>
+    <legend>条件搜索</legend>
+    <form class="layui-form layui-form-pane form-search" action="{:sysuri()}" onsubmit="return false" method="get" autocomplete="off">
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">期限</label>
+            <div class="layui-input-inline">
+                <select name='status' lay-search class="layui-select">
+                    <option value=''>-- 全部 --</option>
+                    {foreach $status as $key => $value}{if $key eq input('get.status')}
+                    <option selected value="{$key}">{$value}</option>
+                    {else}
+                    <option value="{$key}">{$value}</option>
+                    {/if}{/foreach}
+                </select>
+            </div>
+        </div>
+        
+          <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">库存类型</label>
+            <div class="layui-input-inline">
+                <select name='stock_type' lay-search class="layui-select">
+                    <option value=''>-- 全部 --</option>
+                    {foreach [1 => '数量限制',2 => '无数量限制️'] as $key=>$value}{if $key eq input('get.stock_type')}
+                    <option selected value="{$key}">{$value}</option>
+                    {else}
+                    <option value="{$key}">{$value}</option>
+                    {/if}{/foreach}
+                </select>
+            </div>
+        </div>
+
+         <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">使用场景</label>
+            <div class="layui-input-inline">
+                <select name='use_scene' lay-search class="layui-select">
+                    <option value=''>-- 全部 --</option>
+                    {foreach [1 => '全平台',2 => '指定项目'] as $key=>$value}{if $key eq input('get.use_scene')}
+                    <option selected value="{$key}">{$value}</option>
+                    {else}
+                    <option value="{$key}">{$value}</option>
+                    {/if}{/foreach}
+                </select>
+            </div>
+        </div>
+        
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">使用要求</label>
+            <div class="layui-input-inline">
+                <select name='use_requirement' lay-search class="layui-select">
+                    <option value=''>-- 全部 --</option>
+                    {foreach [1 => '无要求',2 => '指定最低消费金额'] as $key=>$value}{if $key eq input('get.use_requirement')}
+                    <option selected value="{$key}">{$value}</option>
+                    {else}
+                    <option value="{$key}">{$value}</option>
+                    {/if}{/foreach}
+                </select>
+            </div>
+        </div>
+        
+        
+ 
+        
+        
+         <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">混合其他卷使用</label>
+            <div class="layui-input-inline">
+                <select name='is_blend' lay-search class="layui-select">
+                    <option value=''>-- 全部 --</option>
+                    {foreach ['不能混合', '可以混合'] as $key=>$value}{if $key eq input('get.is_blend')}
+                    <option selected value="{$key}">{$value}</option>
+                    {else}
+                    <option value="{$key}">{$value}</option>
+                    {/if}{/foreach}
+                </select>
+            </div>
+        </div>
+        
+        
+         <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">发放方式</label>
+            <div class="layui-input-inline">
+                <select name='grant_type' lay-search class="layui-select">
+                    <option value=''>-- 全部 --</option>
+                    {foreach ['手动领取', '人工发放','系统发放'] as $key=>$value}{if $key eq input('get.grant_type')}
+                    <option selected value="{$key}">{$value}</option>
+                    {else}
+                    <option value="{$key}">{$value}</option>
+                    {/if}{/foreach}
+                </select>
+            </div>
+        </div>
+        
+        
+  
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">使用时间</label>
+            <label class="layui-input-inline">
+                <input data-date-range name="create_at" value="{$get.create_at|default=''}" placeholder="使用时间" class="layui-input">
+            </label>
+        </div>
+         <div class="layui-form-item layui-inline">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+    </div>
+    </form>
+</fieldset>
+
+<script>
+</script>
